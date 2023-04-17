@@ -62,15 +62,10 @@ class TodoControllerTest extends TestCase
         ];
 
         $res = $this->postJson(route('api.todo.create'), $params);
-        $res->assertOk();
+        $res->assertStatus(422);
         $todos = Todo::all();
-
-        $this->assertCount(1, $todos);
-
-        $todo = $todos->first();
-
-        $this->assertEquals($params['title'], $todo->title);
-        $this->assertEquals($params['content'], $todo->content); 
+    
+        $this->assertCount(0, $todos);
     }
 
 }
