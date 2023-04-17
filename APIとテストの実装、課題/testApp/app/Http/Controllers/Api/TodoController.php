@@ -33,4 +33,31 @@ class TodoController extends Controller
         return ['message' => 'ok'];
     }
 
+    public function updateApi(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255']
+        ]);
+        $this->todo->findOrFail($id)->update($validated);
+        return redirect()->route('todo.index');
+    }
+
+    public function readApi(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255']
+        ]);
+        $this->todo->fill($validated)->save();
+
+        return ['message' => 'ok'];
+    }
+
+    public function deleteApi($id)
+    {
+        $this->todo->findOrFail($id)->delete();
+        return redirect()->route('todo.index');
+    }
+
 }
