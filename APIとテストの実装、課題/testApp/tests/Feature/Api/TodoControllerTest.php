@@ -110,7 +110,6 @@ class TodoControllerTest extends TestCase
         'content' => 'updated content',
     ];
 
-
     // 更新APIを呼び出す
     $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
 
@@ -123,4 +122,20 @@ class TodoControllerTest extends TestCase
     $this->assertEquals($todo->content, $updatedTodo->content);
     }
 
+     /**
+     * @test
+     */
+    public function 詳細取得()
+    {
+        
+    }
+
+     /**
+     * @test
+     */
+    public function 詳細取得失敗()
+    {
+        
+    }
+    
 }
