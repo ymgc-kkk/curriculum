@@ -33,7 +33,7 @@ class TodoController extends Controller
         return ['message' => 'ok'];
     }
 
-    public function updateApi(Request $request, int $id)
+    public function update(Request $request, int $id)
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -43,7 +43,7 @@ class TodoController extends Controller
         return redirect()->route('todo.index');
     }
 
-    public function readApi(Request $request)
+    public function read(Request $request)
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -54,7 +54,7 @@ class TodoController extends Controller
         return ['message' => 'ok'];
     }
 
-    public function deleteApi($id)
+    public function delete($id)
     {
         $this->todo->findOrFail($id)->delete();
         return redirect()->route('todo.index');

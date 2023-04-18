@@ -68,4 +68,59 @@ class TodoControllerTest extends TestCase
         $this->assertCount(0, $todos);
     }
 
+     /**
+     * @test
+     */
+    public function 更新処理()
+    {
+    // テスト用データ
+    $todo = new Todo;
+    $todo->title = 'test title';
+    $todo->content = 'test content';
+    $todo->save();
+
+    $newData = [
+        'title' => '',
+        'content' => 'updated content',
+    ];
+
+    // 更新APIを呼び出す
+    $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
+    $response->assertOk();
+
+    // データが更新されていることを確認する
+    $updatedTodo = Todo::findOrFail($todo->id);
+    $this->assertEquals($newData['title'], $updatedTodo->title);
+    $this->assertEquals($newData['content'], $updatedTodo->content);
+    }
+
+     /**
+     * @test
+     */
+    public function 更新処理失敗()
+    {
+    // テスト用データ
+    $todo = new Todo;
+    $todo->title = 'test title';
+    $todo->content = 'test content';
+    $todo->save();
+
+    $newData = [
+        'title' => '',
+        'content' => 'updated content',
+    ];
+
+
+    // 更新APIを呼び出す
+    $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
+
+    // ステータスコードが422であることを確認する
+    $response->assertStatus(422);
+
+    // データが更新されていないことを確認する
+    $updatedTodo = Todo::findOrFail($todo->id);
+    $this->assertEquals($todo->title, $updatedTodo->title);
+    $this->assertEquals($todo->content, $updatedTodo->content);
+    }
+
 }
