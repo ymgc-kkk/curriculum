@@ -43,14 +43,15 @@ class TodoController extends Controller
         return redirect()->route('todo.index');
     }
 
-    public function read(Request $request)
+    public function show($id)
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string', 'max:255']
-        ]);
-        $this->todo->fill($validated)->save();
+        $todo = Todo::find($id);
 
+        if (!$todo) {
+            return response()->json(['message' => 'Todo not found'], 404);
+        }
+    
+        return response()->json($todo, 200);
         return ['message' => 'ok'];
     }
 

@@ -74,7 +74,8 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        $todo = Todo::findOrFail($id);
+        return response()->json($todo);
     }
 
     /**

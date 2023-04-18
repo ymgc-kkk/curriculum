@@ -127,7 +127,21 @@ class TodoControllerTest extends TestCase
      */
     public function 詳細取得()
     {
-        
+    // テスト用データ
+    $todo = new Todo;
+    $todo->title = 'test title';
+    $todo->content = 'test content';
+    $todo->save();
+
+    // 詳細取得APIを呼び出す
+    $response = $this->getJson(route('api.todo.show', ['id' => $todo->id]));
+    $response->assertOk();
+
+    // 取得したデータが正しいことを確認する
+    $response->assertJson([
+        'title' => $todo->title,
+        'content' => $todo->content,
+    ]);
     }
 
      /**
@@ -135,7 +149,12 @@ class TodoControllerTest extends TestCase
      */
     public function 詳細取得失敗()
     {
-        
-    }
+        // 存在しないIDを使用して詳細を取得する
+        $response = $this->getJson(route('api.todo.show', ['id' => 999]));
     
+        // ステータスコードとエラーメッセージを確認する
+        $response->assertStatus(404)
+                 ->assertJson(['message' => 'Todo not found']);
+    }
+
 }
