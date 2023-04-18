@@ -80,13 +80,13 @@ class TodoControllerTest extends TestCase
     $todo->save();
 
     $newData = [
-        'title' => '',
+        'title' => 'updated title',
         'content' => 'updated content',
     ];
 
     // 更新APIを呼び出す
     $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
-    $response->assertOk();
+    $response->assertRedirect();
 
     // データが更新されていることを確認する
     $updatedTodo = Todo::findOrFail($todo->id);
