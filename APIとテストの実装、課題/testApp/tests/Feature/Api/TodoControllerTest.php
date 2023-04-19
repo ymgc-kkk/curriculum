@@ -113,10 +113,10 @@ class TodoControllerTest extends TestCase
     // 更新APIを呼び出す
     $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
 
-    // ステータスコードが422であることを確認する
+    // ステータスコードが422であることを確認
     $response->assertStatus(422);
 
-    // データが更新されていないことを確認する
+    // データが更新されていないことを確認
     $updatedTodo = Todo::findOrFail($todo->id);
     $this->assertEquals($todo->title, $updatedTodo->title);
     $this->assertEquals($todo->content, $updatedTodo->content);
@@ -155,6 +155,42 @@ class TodoControllerTest extends TestCase
         // ステータスコードとエラーメッセージを確認する
         $response->assertStatus(404)
                  ->assertJson(['message' => 'Todo not found']);
+    }
+
+    /**
+    * @test
+    */
+    public function 削除処理()
+    {
+        // テスト用データ
+        $todo = new Todo;
+        $todo->title = 'test title';
+        $todo->content = 'test content';
+        $todo->save();
+
+        // データを確認
+        $this->assertDatabaseHas('todos', $todo->toArray());
+
+        // 削除
+        $response = $this->delete(route('api.todo.delete', ['id' => $todo->id]));
+
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('todos', $todo->toArray());
+    }
+
+    /**
+    * @test
+    */
+    public function 削除処理失敗()
+    {
+       // 存在しない ID を指定することで削除処理が失敗するように設定
+    $id = 999;
+
+    // 削除処理を実行
+    $response = $this->delete(route('api.todo.delete', ['id' => $id]));
+
+    // ステータスコード 404 (Not Found) が返されることを検証
+    $response->assertStatus(404);
     }
 
 }
