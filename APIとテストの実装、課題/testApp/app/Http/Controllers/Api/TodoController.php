@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
@@ -40,25 +41,25 @@ class TodoController extends Controller
             'content' => ['required', 'string', 'max:255']
         ]);
         $this->todo->findOrFail($id)->update($validated);
-        return redirect()->route('todo.index');
+        return ['message' => 'ok'];
+        // return redirect()->route('todo.index');
     }
 
     public function show($id)
     {
-        $todo = Todo::find($id);
+        $todo = Todo::findOrFail($id);
 
         if (!$todo) {
             return response()->json(['message' => 'Todo not found'], 404);
         }
-    
+
         return response()->json($todo, 200);
-        return ['message' => 'ok'];
     }
 
     public function delete($id)
     {
         $this->todo->findOrFail($id)->delete();
-        return redirect()->route('todo.index');
+        return ['message' => 'ok'];
+        // return redirect()->route('todo.index');
     }
-
 }

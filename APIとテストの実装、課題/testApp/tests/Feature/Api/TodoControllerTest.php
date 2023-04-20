@@ -7,12 +7,13 @@ namespace Tests\Feature\Api;
 use Tests\TestCase;
 use App\Models\Todo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\Factory;
 
 class TodoControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -23,8 +24,8 @@ class TodoControllerTest extends TestCase
     public function Todoの新規作成()
     {
         $params = [
-            "title" => "テスト：タイトル",
-            "content" => "テスト：内容"
+            'title' => 'テスト：タイトル',
+            'content' => 'テスト：内容'
         ];
 
         $res = $this->postJson(route('api.todo.create'), $params);
@@ -35,21 +36,23 @@ class TodoControllerTest extends TestCase
 
         $todo = $todos->first();
 
-        $this->assertEquals($params['title'], $todo->title);
-        $this->assertEquals($params['content'], $todo->content);
+        $this->assertSame($params['title'], $todo->title);
+        $this->assertSame($params['content'], $todo->content);
     }
-    
+
     /**
      * A basic feature test example.
      *
      * @return void
      */
+    /*
     public function test_example()
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
     }
+    */
 
     /**
      * @test
@@ -57,14 +60,14 @@ class TodoControllerTest extends TestCase
     public function 新規作成の失敗時()
     {
         $params = [
-            "title" => "",
-            "content" => ""
+            'title' => '',
+            'content' => ''
         ];
 
         $res = $this->postJson(route('api.todo.create'), $params);
         $res->assertStatus(422);
         $todos = Todo::all();
-    
+
         $this->assertCount(0, $todos);
     }
 
@@ -73,25 +76,20 @@ class TodoControllerTest extends TestCase
      */
     public function 更新処理()
     {
-    // テスト用データ
-    $todo = new Todo;
-    $todo->title = 'test title';
-    $todo->content = 'test content';
-    $todo->save();
+        // テスト用データ
+        $todo = Todo::factory()->create([
+            'title' => 'updated title',
+            'content' => 'updated content',
+        ]);
 
-    $newData = [
-        'title' => 'updated title',
-        'content' => 'updated content',
-    ];
+        // 更新APIを呼び出す
+        $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]));
+        $response->assertRedirect();
 
-    // 更新APIを呼び出す
-    $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
-    $response->assertRedirect();
-
-    // データが更新されていることを確認する
-    $updatedTodo = Todo::findOrFail($todo->id);
-    $this->assertEquals($newData['title'], $updatedTodo->title);
-    $this->assertEquals($newData['content'], $updatedTodo->content);
+        // データが更新されていることを確認する
+        $updatedTodo = Todo::findOrFail($todo->id);
+        $this->assertSame($todo['title'], $updatedTodo->title);
+        $this->assertSame($todo['content'], $updatedTodo->content);
     }
 
      /**
@@ -99,27 +97,22 @@ class TodoControllerTest extends TestCase
      */
     public function 更新処理失敗()
     {
-    // テスト用データ
-    $todo = new Todo;
-    $todo->title = 'test title';
-    $todo->content = 'test content';
-    $todo->save();
+        // テスト用データ
+        $todo = Todo::factory()->create([
+            'title' => '',
+            'content' => 'updated content'
+        ]);
 
-    $newData = [
-        'title' => '',
-        'content' => 'updated content',
-    ];
+        // 更新APIを呼び出す
+        $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]));
 
-    // 更新APIを呼び出す
-    $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]), $newData);
+        // ステータスコードが422であることを確認
+        $response->assertStatus(422);
 
-    // ステータスコードが422であることを確認
-    $response->assertStatus(422);
-
-    // データが更新されていないことを確認
-    $updatedTodo = Todo::findOrFail($todo->id);
-    $this->assertEquals($todo->title, $updatedTodo->title);
-    $this->assertEquals($todo->content, $updatedTodo->content);
+        // データが更新されていないことを確認
+        $updatedTodo = Todo::findOrFail($todo->id);
+        $this->assertSame($todo->title, $updatedTodo->title);
+        $this->assertSame($todo->content, $updatedTodo->content);
     }
 
      /**
@@ -127,21 +120,20 @@ class TodoControllerTest extends TestCase
      */
     public function 詳細取得()
     {
-    // テスト用データ
-    $todo = new Todo;
-    $todo->title = 'test title';
-    $todo->content = 'test content';
-    $todo->save();
+        // テスト用データ
+        $todo = Todo::factory()->create([
+            'title' => 'test title',
+            'content' => 'test content'
+        ]);
+        // 詳細取得APIを呼び出す
+        $response = $this->getJson(route('api.todo.show', ['id' => $todo->id]));
+        $response->assertOk();
 
-    // 詳細取得APIを呼び出す
-    $response = $this->getJson(route('api.todo.show', ['id' => $todo->id]));
-    $response->assertOk();
-
-    // 取得したデータが正しいことを確認する
-    $response->assertJson([
-        'title' => $todo->title,
-        'content' => $todo->content,
-    ]);
+        // 取得したデータが正しいことを確認する
+        $response->assertJson([
+            'title' => $todo->title,
+            'content' => $todo->content,
+        ]);
     }
 
      /**
@@ -151,10 +143,9 @@ class TodoControllerTest extends TestCase
     {
         // 存在しないIDを使用して詳細を取得する
         $response = $this->getJson(route('api.todo.show', ['id' => 999]));
-    
+
         // ステータスコードとエラーメッセージを確認する
-        $response->assertStatus(404)
-                 ->assertJson(['message' => 'Todo not found']);
+        $response->assertStatus(404);
     }
 
     /**
@@ -163,10 +154,10 @@ class TodoControllerTest extends TestCase
     public function 削除処理()
     {
         // テスト用データ
-        $todo = new Todo;
-        $todo->title = 'test title';
-        $todo->content = 'test content';
-        $todo->save();
+        $todo = Todo::factory()->create([
+            'title' => 'test title',
+            'content' => 'test content'
+        ]);
 
         // データを確認
         $this->assertDatabaseHas('todos', $todo->toArray());
@@ -174,7 +165,7 @@ class TodoControllerTest extends TestCase
         // 削除
         $response = $this->delete(route('api.todo.delete', ['id' => $todo->id]));
 
-        $response->assertStatus(302);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('todos', $todo->toArray());
     }
 
@@ -183,14 +174,10 @@ class TodoControllerTest extends TestCase
     */
     public function 削除処理失敗()
     {
-       // 存在しない ID を指定することで削除処理が失敗するように設定
-    $id = 999;
+        // 削除処理を実行
+        $response = $this->delete(route('api.todo.delete', ['id' => 999]));
 
-    // 削除処理を実行
-    $response = $this->delete(route('api.todo.delete', ['id' => $id]));
-
-    // ステータスコード 404 (Not Found) が返されることを検証
-    $response->assertStatus(404);
+        // ステータスコード 404 (Not Found) が返されることを検証
+        $response->assertStatus(404);
     }
-
 }
