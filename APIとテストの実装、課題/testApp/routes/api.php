@@ -23,3 +23,4 @@ Route::post("todo/create", [TodoController::class, "store"])->name("api.todo.cre
 Route::put('todo/{id}', [TodoController::class, 'update'])->name('api.todo.update');
 Route::get("todo/{id}", [TodoController::class, "show"])->name("api.todo.show");
 Route::delete("todo/{id}", [TodoController::class, "delete"])->name("api.todo.delete");
+Route::get("todo", [TodoController::class, "index"])->name("api.todo.index");

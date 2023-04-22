@@ -31,11 +31,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-
         $todos = $this->todo->orderby('updated_at', 'desc')->paginate(5);
         return view('todo.index', ['todos' => $todos]);
-        // $todos = $this->todo->all();  // 追記
-        // return view('todo.index', ['todos' => $todos]);  // 編集
     }
 
     /**
@@ -72,10 +69,10 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        $todo = Todo::findOrFail($id);
-        return response()->json($todo);
+        $todo = $this->todo->findOrFail($id);
+        return $todo->show($id);
     }
 
     /**

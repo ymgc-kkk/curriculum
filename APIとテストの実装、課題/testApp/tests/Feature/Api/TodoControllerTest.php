@@ -41,20 +41,6 @@ class TodoControllerTest extends TestCase
     }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    /*
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-    */
-
-    /**
      * @test
      */
     public function 新規作成の失敗時()
@@ -84,7 +70,6 @@ class TodoControllerTest extends TestCase
 
         // 更新APIを呼び出す
         $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]));
-        $response->assertRedirect();
 
         // データが更新されていることを確認する
         $updatedTodo = Todo::findOrFail($todo->id);
@@ -126,7 +111,7 @@ class TodoControllerTest extends TestCase
             'content' => 'test content'
         ]);
         // 詳細取得APIを呼び出す
-        $response = $this->getJson(route('api.todo.show', ['id' => $todo->id]));
+        $response = $this->getJson(route('api.todo.show', $todo->id));
         $response->assertOk();
 
         // 取得したデータが正しいことを確認する
@@ -142,7 +127,7 @@ class TodoControllerTest extends TestCase
     public function 詳細取得失敗()
     {
         // 存在しないIDを使用して詳細を取得する
-        $response = $this->getJson(route('api.todo.show', ['id' => 999]));
+        $response = $this->getJson(route('api.todo.show', ['id' => -1]));
 
         // ステータスコードとエラーメッセージを確認する
         $response->assertStatus(404);
@@ -175,7 +160,7 @@ class TodoControllerTest extends TestCase
     public function 削除処理失敗()
     {
         // 削除処理を実行
-        $response = $this->delete(route('api.todo.delete', ['id' => 999]));
+        $response = $this->delete(route('api.todo.delete', ['id' => -1]));
 
         // ステータスコード 404 (Not Found) が返されることを検証
         $response->assertStatus(404);

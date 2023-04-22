@@ -42,24 +42,18 @@ class TodoController extends Controller
         ]);
         $this->todo->findOrFail($id)->update($validated);
         return ['message' => 'ok'];
-        // return redirect()->route('todo.index');
     }
 
     public function show($id)
     {
-        $todo = Todo::findOrFail($id);
-
-        if (!$todo) {
-            return response()->json(['message' => 'Todo not found'], 404);
-        }
-
-        return response()->json($todo, 200);
+        $todo = $this->todo->findOrFail($id);
+        return ['title' => $todo->title, 'content' => $todo->content];
     }
+    
 
     public function delete($id)
     {
         $this->todo->findOrFail($id)->delete();
         return ['message' => 'ok'];
-        // return redirect()->route('todo.index');
     }
 }
