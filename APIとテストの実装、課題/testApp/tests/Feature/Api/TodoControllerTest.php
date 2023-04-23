@@ -64,17 +64,21 @@ class TodoControllerTest extends TestCase
     {
         // テスト用データ
         $todo = Todo::factory()->create([
-            'title' => 'updated title',
-            'content' => 'updated content',
+            'title' => 'new title',
+            'content' => 'new content',
         ]);
 
         // 更新APIを呼び出す
-        $response = $this->putJson(route('api.todo.update', ['id' => $todo->id]));
+        $params = [
+            'title' => 'updated title',
+            'content' => 'updated content',
+        ];
+        $this->putJson(route('api.todo.update', ['id' => $todo->id]), $params);
 
         // データが更新されていることを確認する
         $updatedTodo = Todo::findOrFail($todo->id);
-        $this->assertSame($todo['title'], $updatedTodo->title);
-        $this->assertSame($todo['content'], $updatedTodo->content);
+        $this->assertSame($params['title'], $updatedTodo->title);
+        $this->assertSame($params['content'], $updatedTodo->content);
     }
 
      /**
