@@ -49,9 +49,9 @@ class TodoController extends Controller
         $todo = $this->todo->findOrFail($id);
         return ['title' => $todo->title, 'content' => $todo->content];
     }
-    
 
-    public function delete($id)
+
+    public function destroy($id)
     {
         $this->todo->findOrFail($id)->delete();
         return ['message' => 'ok'];

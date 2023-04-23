@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -8,7 +9,7 @@ use App\Models\Todo; // 追記
 
 class TodoController extends Controller
 {
-     // ここから追記
+    // ここから追記
     /**
     * @var Todo
     */
@@ -69,10 +70,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show()
     {
-        $todo = $this->todo->findOrFail($id);
-        return $todo->show($id);
+       
     }
 
     /**
@@ -110,10 +110,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         $this->todo->findOrFail($id)->delete();
         return redirect()->route('todo.index');
     }
 }
-

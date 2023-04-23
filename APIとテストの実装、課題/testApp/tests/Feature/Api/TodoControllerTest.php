@@ -7,7 +7,6 @@ namespace Tests\Feature\Api;
 use Tests\TestCase;
 use App\Models\Todo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\Factory;
 
 class TodoControllerTest extends TestCase
 {
@@ -89,7 +88,7 @@ class TodoControllerTest extends TestCase
         // テスト用データ
         $todo = Todo::factory()->create([
             'title' => '',
-            'content' => 'updated content'
+            'content' => ''
         ]);
 
         // 更新APIを呼び出す
@@ -152,7 +151,7 @@ class TodoControllerTest extends TestCase
         $this->assertDatabaseHas('todos', $todo->toArray());
 
         // 削除
-        $response = $this->delete(route('api.todo.delete', ['id' => $todo->id]));
+        $response = $this->delete(route('api.todo.destroy', ['id' => $todo->id]));
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('todos', $todo->toArray());
@@ -164,7 +163,7 @@ class TodoControllerTest extends TestCase
     public function 削除処理失敗()
     {
         // 削除処理を実行
-        $response = $this->delete(route('api.todo.delete', ['id' => -1]));
+        $response = $this->delete(route('api.todo.destroy', ['id' => -1]));
 
         // ステータスコード 404 (Not Found) が返されることを検証
         $response->assertStatus(404);
