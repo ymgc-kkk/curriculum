@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('ceo');
             $table->string('ceo_ruby');
+            $table->string('billing');
+            $table->string('billing_ruby');
+            $table->string('department');
+            $table->string('to');
+            $table->string('to_ruby');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -173,8 +173,8 @@ class CompanyControllerTest extends TestCase
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
             'ceo_ruby' => 'たなかたろう',
-            'name'=>'あいうえお株式会社',
-            'name_ruby'=>'あいうえおかぶしきがいしゃ',
+            'billing'=>'あいうえお株式会社',
+            'billing_ruby'=>'あいうえおかぶしきがいしゃ',
             'department'=>'商品部',
             'to'=>'田中太郎',
             'to_ruby'=>'たなかたろう'
@@ -200,8 +200,8 @@ class CompanyControllerTest extends TestCase
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
             'ceo_ruby' => 'たなかたろう',
-            'name'=>'あいうえお株式会社',
-            'name_ruby'=>'あいうえおかぶしきがいしゃ',
+            'billing'=>'あいうえお株式会社',
+            'billing_ruby'=>'あいうえおかぶしきがいしゃ',
             'department'=>'商品部',
             'to'=>'田中太郎',
             'to_ruby'=>'たなかたろう'
