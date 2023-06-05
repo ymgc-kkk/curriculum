@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('ceo');
             $table->string('ceo_ruby');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

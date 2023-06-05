@@ -25,7 +25,7 @@ class AddressFactory extends Factory
             'billing' => $this->faker->company(),
             'billing_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
             'address' =>  $this->faker->address(),
-            'phone_number' => $this->faker->phone_number(),
+            'phone_number' => '0000',
             'department' => '部署名',
             'to' => $this->faker->name(),
             'to_ruby' => 'たなかたろう' //生成した名前の読み仮名を作成できなかったため仮で使用

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->references('id')->on('companies');
             $table->string('billing');
             $table->string('billing_ruby');
             $table->string('address');
@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('department');
             $table->string('to');
             $table->string('to_ruby');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,4 +35,3 @@ return new class extends Migration
     }
 };
 
-// ->constrained()
