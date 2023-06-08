@@ -22,8 +22,8 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company'=> ['required','string', 'max:30'],
-            'company_ruby'=> ['required','string', 'max:30'],
+            'name'=> ['required','string', 'max:30'],
+            'name_ruby'=> ['required','string', 'max:30'],
             'address'=> ['required','string','max:100'],
             'phone_number'=> ['required','string','max:14'],
             'ceo'=> ['required','string', 'max:30'],

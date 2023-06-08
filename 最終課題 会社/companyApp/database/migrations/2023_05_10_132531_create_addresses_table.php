@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->references('id')->on('companies');
-            $table->string('billing');
-            $table->string('billing_ruby');
+            $table->string('name');
+            $table->string('name_ruby');
             $table->string('address');
             $table->string('phone_number');
             $table->string('department');

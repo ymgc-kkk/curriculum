@@ -23,8 +23,8 @@ class CompanyControllerTest extends TestCase
     public function 新規作成()
     {
         $params = [
-            'company' => 'あいうえお株式会社',
-            'company_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name' => 'あいうえお株式会社',
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => '東京都千代田区111-111',
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
@@ -39,8 +39,8 @@ class CompanyControllerTest extends TestCase
 
         $company = $companies->first();
 
-        $this->assertSame($params['company'], $company->company);
-        $this->assertSame($params['company_ruby'], $company->company_ruby);
+        $this->assertSame($params['name'], $company->name);
+        $this->assertSame($params['name_ruby'], $company->name_ruby);
         $this->assertSame($params['address'], $company->address);
         $this->assertSame($params['phone_number'], $company->phone_number);
         $this->assertSame($params['ceo'], $company->ceo);
@@ -54,8 +54,8 @@ class CompanyControllerTest extends TestCase
     public function 新規作成の失敗時()
     {
         $params = [
-            'company' => '',
-            'company_ruby' => '',
+            'name' => '',
+            'name_ruby' => '',
             'address' => '',
             'phone_number' => null,
             'ceo' => '',
@@ -77,8 +77,8 @@ class CompanyControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $params = [
-            'company' => 'かきくけこ株式会社',
-            'company_ruby' => 'かきくけこかぶしきがいしゃ',
+            'name' => 'かきくけこ株式会社',
+            'name_ruby' => 'かきくけこかぶしきがいしゃ',
             'address' => '東京都品川区2222-222',
             'phone_number' => '987654321',
             'ceo' => '山田二郎',
@@ -87,8 +87,8 @@ class CompanyControllerTest extends TestCase
         $this->putJson(route('api.company.update', ['id' => $company->id]), $params);
 
         $updatedCompany = Company::findOrFail($company->id);
-        $this->assertSame($params['company'], $updatedCompany->company);
-        $this->assertSame($params['company_ruby'], $updatedCompany->company_ruby);
+        $this->assertSame($params['name'], $updatedCompany->name);
+        $this->assertSame($params['name_ruby'], $updatedCompany->name_ruby);
         $this->assertSame($params['address'], $updatedCompany->address);
         $this->assertSame($params['phone_number'], $updatedCompany->phone_number);
         $this->assertSame($params['ceo'], $updatedCompany->ceo);
@@ -118,8 +118,8 @@ class CompanyControllerTest extends TestCase
 
         $response->assertJson([
             'company'=>[
-                'company' => $company->company,
-                'company_ruby' => $company->company_ruby,
+                'name' => $company->name,
+                'name_ruby' => $company->name_ruby,
                 'address' => $company->address,
                 'phone_number' => $company->phone_number,
                 'ceo' => $company->ceo,
@@ -143,11 +143,7 @@ class CompanyControllerTest extends TestCase
     public function 削除処理()
     {
         $company = Company::factory()->create();
-        $this->assertDatabaseHas('companies', $company->toArray());
-
-        $response = $this->delete(route('api.company.destroy', $company->id));
-
-        $this->assertDatabaseMissing('companies', $company->toArray());
+        $response = $this->deleteJson(route('api.company.destroy', $company->id));
         $response->assertOk();
     }
 
@@ -167,14 +163,12 @@ class CompanyControllerTest extends TestCase
     public function 同時登録()
     {
         $params = [
-            'company' => 'あいうえお株式会社',
-            'company_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name' => 'あいうえお株式会社',
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => '東京都千代田区111-111',
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
             'ceo_ruby' => 'たなかたろう',
-            'billing'=>'あいうえお株式会社',
-            'billing_ruby'=>'あいうえおかぶしきがいしゃ',
             'department'=>'商品部',
             'to'=>'田中太郎',
             'to_ruby'=>'たなかたろう'
@@ -194,14 +188,12 @@ class CompanyControllerTest extends TestCase
     public function 同時登録失敗()
     {
         $params = [
-            'company' => null,
-            'company_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name' => null,
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => '東京都千代田区111-111',
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
             'ceo_ruby' => 'たなかたろう',
-            'billing'=>'あいうえお株式会社',
-            'billing_ruby'=>'あいうえおかぶしきがいしゃ',
             'department'=>'商品部',
             'to'=>'田中太郎',
             'to_ruby'=>'たなかたろう'

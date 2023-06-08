@@ -11,8 +11,8 @@ class Company extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company',
-        'company_ruby',
+        'name',
+        'name_ruby',
         'address',
         'phone_number',
         'ceo',
@@ -42,6 +42,16 @@ class Company extends Model
         return $this->hasMany(Address::class);
     }
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'created_at'        => 'datetime:Y-m-d H:i:s',
+        'updated_at'        => 'datetime:Y-m-d H:i:s',
+    ];
 }
 
 

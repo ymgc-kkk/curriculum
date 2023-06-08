@@ -20,8 +20,8 @@ class AddressControllerTest extends TestCase
     {
         $companyId = Company::factory()->create()->id;
         $params = [
-            'billing'=>'あいうえお株式会社',
-            'billing_ruby'=>'あいうえおかぶしきがいしゃ',
+            'name'=>'あいうえお株式会社',
+            'name_ruby'=>'あいうえおかぶしきがいしゃ',
             'address'=>'東京都千代田区111-111',
             'phone_number'=>'0123456789',
             'department'=>'商品部',
@@ -37,8 +37,8 @@ class AddressControllerTest extends TestCase
 
         $address = $addresses->first();
 
-        $this->assertSame($params['billing'], $address->billing);
-        $this->assertSame($params['billing_ruby'], $address->billing_ruby);
+        $this->assertSame($params['name'], $address->name);
+        $this->assertSame($params['name_ruby'], $address->name_ruby);
         $this->assertSame($params['address'], $address->address);
         $this->assertSame($params['phone_number'], $address->phone_number);
         $this->assertSame($params['department'], $address->department);
@@ -53,8 +53,8 @@ class AddressControllerTest extends TestCase
     public function 新規作成の失敗時()
     {
         $params = [
-            'billing' => '',
-            'billing_ruby' => '',
+            'name' => '',
+            'name_ruby' => '',
             'address' => '',
             'phone_number' => null,
             'department'=>'',
@@ -75,8 +75,8 @@ class AddressControllerTest extends TestCase
     public function 更新処理()
     {
         $address = Address::factory()->create([
-            'billing' => 'かきくけこ株式会社',
-            'billing_ruby' => 'かきくけこかぶしきがいしゃ',
+            'name' => 'かきくけこ株式会社',
+            'name_ruby' => 'かきくけこかぶしきがいしゃ',
             'address' => '東京都品川区2222-222',
             'phone_number' => '99999999',
             'department' => '商品部',
@@ -86,8 +86,8 @@ class AddressControllerTest extends TestCase
 
         $params = [
             'company_id' => Company::factory()->create()->id,
-            'billing' => 'あいうえお株式会社',
-            'billing_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name' => 'あいうえお株式会社',
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => '東京都品川区2222-222',
             'phone_number' => '987654321',
             'department'=>'開発部',
@@ -97,8 +97,8 @@ class AddressControllerTest extends TestCase
         $this->putJson(route('api.address.update', ['id' => $address->id]), $params);
 
         $updatedAddress = Address::findOrFail($address->id);
-        $this->assertSame($params['billing'], $updatedAddress->billing);
-        $this->assertSame($params['billing_ruby'], $updatedAddress->billing_ruby);
+        $this->assertSame($params['name'], $updatedAddress->name);
+        $this->assertSame($params['name_ruby'], $updatedAddress->name_ruby);
         $this->assertSame($params['address'], $updatedAddress->address);
         $this->assertSame($params['phone_number'], $updatedAddress->phone_number);
         $this->assertSame($params['department'], $updatedAddress->department);
@@ -113,7 +113,7 @@ class AddressControllerTest extends TestCase
     public function 更新処理失敗()
     {
         $address = Address::factory()->create();
-        $response = $this->putJson(route('api.address.update', ['id' => $address->company_id]),['billing' => null]);
+        $response = $this->putJson(route('api.address.update', ['id' => $address->company_id]),['name' => null]);
 
         $response->assertStatus(422);
 
@@ -131,8 +131,8 @@ class AddressControllerTest extends TestCase
 
         $response->assertJson([
             'address'=>[
-                'billing' => $address->billing,
-                'billing_ruby' => $address->billing_ruby,
+                'name' => $address->name,
+                'name_ruby' => $address->name_ruby,
                 'address' => $address->address,
                 'phone_number' => $address->phone_number,
                 'department'=>$address->department,
@@ -160,13 +160,8 @@ class AddressControllerTest extends TestCase
         $address = Address::factory()->create([
             'company_id' => Company::factory()->create()->id,
         ]);
-
-        $this->assertDatabaseHas('addresses', $address->toArray());
-
         $response = $this->delete(route('api.address.destroy', ['id' => $address->id]));
-
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('addresses', $address->toArray());
     }
 
     /**

@@ -20,12 +20,12 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'company' => $this->faker->company(),
-            'company_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
+            'name' => $this->faker->company(),
+            'name_ruby' => 'あいうえおかぶしきがいしゃ', 
             'address' =>  $this->faker->address(),
             'phone_number' => '0000',
             'ceo' => $this->faker->name(),
-            'ceo_ruby' => 'たなかたろう' //生成した名前の読み仮名を作成できなかったため仮で使用
+            'ceo_ruby' => 'たなかたろう'
         ];
     }
 }

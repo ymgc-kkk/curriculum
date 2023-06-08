@@ -12,8 +12,8 @@ class Address extends Model
 
     protected $fillable = [
         'company_id',
-        'billing',
-        'billing_ruby',
+        'name',
+        'name_ruby',
         'address',
         'phone_number',
         'department',
@@ -25,4 +25,15 @@ class Address extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'created_at'        => 'datetime:Y-m-d H:i:s', 
+        'updated_at'        => 'datetime:Y-m-d H:i:s', 
+    ];
 }

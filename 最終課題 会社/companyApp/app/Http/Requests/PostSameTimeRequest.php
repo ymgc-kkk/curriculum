@@ -22,14 +22,12 @@ class PostSameTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company'=> ['required','string', 'max:30'],
-            'company_ruby'=> ['required','string', 'max:30'],
+            'name'=> ['required','string', 'max:30'],
+            'name_ruby'=> ['required','string', 'max:30'],
             'address'=> ['required','string','max:100'],
             'phone_number'=> ['required','string','max:14'],
             'ceo'=> ['required','string', 'max:30'],
             'ceo_ruby'=> ['required','string', 'max:30'],
-            'billing'=>['required','string', 'max:30'],
-            'billing_ruby'=>['required','string', 'max:30'],
             'department'=>['required','string', 'max:30'],
             'to'=>['required','string', 'max:30'],
             'to_ruby'=>['required','string', 'max:30'],

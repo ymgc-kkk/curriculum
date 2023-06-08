@@ -22,8 +22,8 @@ class AddressFactory extends Factory
     {
         return [
             'company_id' => Company::factory()->create()->id,
-            'billing' => $this->faker->company(),
-            'billing_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
+            'name' => $this->faker->company(),
+            'name_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
             'address' =>  $this->faker->address(),
             'phone_number' => '0000',
             'department' => '部署名',
