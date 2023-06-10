@@ -86,20 +86,4 @@ class CompanyController extends Controller
         return ['message' => 'ok'];
     }
 
-    public function storeSameTime(PostSameTimeRequest $request)
-    {
-        $params = $request->validated();
-    
-            $company = DB::transaction(function() use ($params) {
-            $company = $this->company->create($params);
-            $company->address()->create($params['address']);
-
-
-            return $company->load('address');
-        });
-    
-        return $company;
-        
-    }
-
 }
