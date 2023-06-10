@@ -30,4 +30,4 @@ Route::put('address/{id}', [AddressController::class, 'update'])->name('api.addr
 Route::get("address/{id}", [AddressController::class, "show"])->name("api.address.show");
 Route::delete("address/{id}", [AddressController::class, "destroy"])->name("api.address.destroy");
 
-Route::post('company', [CompanyController::class, 'storeSameTime'])->name('api.store.same.time');
+Route::post('company/store_same_time', [CompanyController::class, 'storeSameTime'])->name('api.store.same.time');

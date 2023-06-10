@@ -22,15 +22,19 @@ class PostSameTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required','string', 'max:30'],
-            'name_ruby'=> ['required','string', 'max:30'],
-            'address'=> ['required','string','max:100'],
-            'phone_number'=> ['required','string','max:14'],
-            'ceo'=> ['required','string', 'max:30'],
-            'ceo_ruby'=> ['required','string', 'max:30'],
-            'department'=>['required','string', 'max:30'],
-            'to'=>['required','string', 'max:30'],
-            'to_ruby'=>['required','string', 'max:30'],
+            'name'=> ['string', 'max:30'],
+            'name_ruby'=> ['string', 'max:30'],
+            'address'=> ['string','max:100'],
+            'phone_number'=> ['string','max:14'],
+            'ceo'=> ['string', 'max:30'],
+            'ceo_ruby'=> ['string', 'max:30'],
+            'address.name'=> ['string', 'max:30'],
+            'address.name_ruby'=> ['string', 'max:30'],
+            'address.address'=> ['string', 'max:100'],
+            'address.phone_number'=> ['string', 'max:14'],
+            'address.department'=> ['string', 'max:30'],
+            'address.to'=> ['string', 'max:30'],
+            'address.to_ruby'=> ['string', 'max:30'],
         ];
     }
 }

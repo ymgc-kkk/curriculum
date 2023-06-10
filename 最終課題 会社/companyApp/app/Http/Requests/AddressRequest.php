@@ -25,7 +25,7 @@ class AddressRequest extends FormRequest
             'company_id'=>['required'],
             'name'=>['required','string', 'max:30'],
             'name_ruby'=>['required','string', 'max:30'],
-            'address'=>['required','string', 'max:30'],
+            'address'=>['required','string', 'max:100'],
             'phone_number'=> ['required','string','max:14'],
             'department'=>['required','string', 'max:30'],
             'to'=>['required','string', 'max:30'],

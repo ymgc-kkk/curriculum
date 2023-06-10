@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Company;
+use App\Models\Address;
 
 class CompanyControllerTest extends TestCase
 {
@@ -159,9 +160,12 @@ class CompanyControllerTest extends TestCase
 
     /**
      * @test
-     */
+     */ 
     public function 同時登録()
     {
+        $company = Company::factory()->create();
+        $address = Address::factory()->create();
+    
         $params = [
             'name' => 'あいうえお株式会社',
             'name_ruby' => 'あいうえおかぶしきがいしゃ',
@@ -169,12 +173,23 @@ class CompanyControllerTest extends TestCase
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
             'ceo_ruby' => 'たなかたろう',
-            'department'=>'商品部',
-            'to'=>'田中太郎',
-            'to_ruby'=>'たなかたろう'
-        ];
+        ];    
 
-        $response = $this->postJson(route('api.store.same.time'), $params);
+        $addressParams = [
+            'name' => 'あいうえお株式会社',
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
+            'address' => '東京都千代田区111-111',
+            'phone_number' => '123456789',
+            'department'=>'開発部',
+            'to' => '田中太郎',
+            'to_ruby' => 'たなかたろう'
+        ];    
+
+        $params['address'] = $addressParams;
+        $response = $this->postJson(route('api.store.same.time'), [
+            'company_id' => $company->id,
+            'address_id' => $address->id
+        ]);
 
         $response->assertStatus(201)
             ->assertJson([

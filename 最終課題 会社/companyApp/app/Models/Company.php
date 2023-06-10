@@ -17,8 +17,6 @@ class Company extends Model
         'phone_number',
         'ceo',
         'ceo_ruby',
-        'billing',
-        'billing_ruby',
         'department',
         'to',
         'to_ruby'

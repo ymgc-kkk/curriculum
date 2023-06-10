@@ -88,18 +88,18 @@ class CompanyController extends Controller
 
     public function storeSameTime(PostSameTimeRequest $request)
     {
-        $validated = $request->validated();
+        $params = $request->validated();
+    
+            $company = DB::transaction(function() use ($params) {
+            $company = $this->company->create($params);
+            $company->address()->create($params['address']);
 
-        DB::transaction(function () use ($validated) {
-            // 親テーブルの作成または更新
-            $parent = Company::updateOrCreate($validated);
-            
-            // 子テーブルの作成または更新
-            $childData['parent_id'] = $parent->id;
-            Address::updateOrCreate($childData);
+
+            return $company->load('address');
         });
-
-        return ['message' => 'ok'];
+    
+        return $company;
+        
     }
 
 }
