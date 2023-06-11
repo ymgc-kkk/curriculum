@@ -65,9 +65,6 @@ class CompanyControllerTest extends TestCase
 
         $res = $this->postJson(route('api.company.store'), $params);
         $res->assertStatus(422);
-        $companies = Company::all();
-
-        $this->assertCount(0, $companies);
     }
 
      /**
@@ -132,7 +129,7 @@ class CompanyControllerTest extends TestCase
      /**
      * @test
      */
-    public function 詳細取得失敗()
+    public function 詳細取得不可()
     {
         $response = $this->getJson(route('api.company.show', ['id' => -1]));
         $response->assertStatus(404);
@@ -146,6 +143,7 @@ class CompanyControllerTest extends TestCase
         $company = Company::factory()->create();
         $response = $this->deleteJson(route('api.company.destroy', $company->id));
         $response->assertOk();
+        $this->assertCount(0, Company::all());
     }
 
     /**
@@ -153,8 +151,10 @@ class CompanyControllerTest extends TestCase
     */
     public function 削除処理失敗()
     {
+        $company = Company::factory()->create();
         $response = $this->delete(route('api.company.destroy', ['id' => -1]));
 
         $response->assertStatus(404);
+        $this->assertDatabaseHas('companies', ['id' => $company->id]);
     }
 }

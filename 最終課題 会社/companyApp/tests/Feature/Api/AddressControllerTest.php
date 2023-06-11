@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Address;
 use App\Models\Company;
+use Faker\Factory;
 
 class AddressControllerTest extends TestCase
 {
@@ -18,18 +19,20 @@ class AddressControllerTest extends TestCase
      */
     public function 新規作成()
     {
-        $companyId = Company::factory()->create()->id;
+        $faker = Factory::create();
         $params = [
-            'name'=>'あいうえお株式会社',
-            'name_ruby'=>'あいうえおかぶしきがいしゃ',
-            'address'=>'東京都千代田区111-111',
-            'phone_number'=>'0123456789',
-            'department'=>'商品部',
-            'to'=>'田中太郎',
-            'to_ruby'=>'たなかたろう'
+            'id' => 0,
+            'company_id' => Company::factory()->create()->id,
+            'name' => $faker->company,
+            'name_ruby' => 'あいうえおかぶしきがいしゃ',
+            'address' => $faker->address,
+            'phone_number' => '987654321',
+            'department'=>'開発部',
+            'to' =>  $faker->name,
+            'to_ruby' => 'やまだじろう'
         ];
 
-        $res = $this->postJson(route('api.address.store', ['company_id'=> $companyId]), $params);
+        $res = $this->postJson(route('api.address.store', ['id'=> $params['id']]), $params);
         $res->assertOk();
         $addresses = Address::all();
 
@@ -74,24 +77,16 @@ class AddressControllerTest extends TestCase
      */
     public function 更新処理()
     {
-        $address = Address::factory()->create([
-            'name' => 'かきくけこ株式会社',
-            'name_ruby' => 'かきくけこかぶしきがいしゃ',
-            'address' => '東京都品川区2222-222',
-            'phone_number' => '99999999',
-            'department' => '商品部',
-            'to' => '田中太郎',
-            'to_ruby' => 'たなかたろう'
-        ]);
-
+        $address = Address::factory()->create();
+        $faker = Factory::create();
         $params = [
             'company_id' => Company::factory()->create()->id,
-            'name' => 'あいうえお株式会社',
+            'name' => $faker->company,
             'name_ruby' => 'あいうえおかぶしきがいしゃ',
-            'address' => '東京都品川区2222-222',
+            'address' => $faker->address,
             'phone_number' => '987654321',
             'department'=>'開発部',
-            'to' => '山田二郎',
+            'to' =>  $faker->name,
             'to_ruby' => 'やまだじろう'
         ];
         $this->putJson(route('api.address.update', ['id' => $address->id]), $params);
@@ -113,7 +108,7 @@ class AddressControllerTest extends TestCase
     public function 更新処理失敗()
     {
         $address = Address::factory()->create();
-        $response = $this->putJson(route('api.address.update', ['id' => $address->company_id]),['name' => null]);
+        $response = $this->putJson(route('api.address.update', ['id' => $address->id]));
 
         $response->assertStatus(422);
 

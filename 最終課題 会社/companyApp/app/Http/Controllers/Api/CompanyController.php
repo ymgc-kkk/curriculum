@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\CompanyRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Address;
 use App\Http\Requests\PostSameTimeRequest;
@@ -41,7 +41,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(CompanyRequest $request)
     {
         $validated = $request->validated();
 
@@ -70,7 +70,7 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreUserRequest $request, string $id)
+    public function update(CompanyRequest $request, string $id)
     {
         $this->company->findOrFail($id)->update($request->validated());
     
