@@ -80,6 +80,7 @@ class AddressControllerTest extends TestCase
         $address = Address::factory()->create();
         $faker = Factory::create();
         $params = [
+            'id' => $address->id,
             'company_id' => $address->company_id,
             'name' => $faker->company,
             'name_ruby' => 'あいうえおかぶしきがいしゃ',
@@ -89,6 +90,7 @@ class AddressControllerTest extends TestCase
             'to' =>  $faker->name,
             'to_ruby' => 'やまだじろう'
         ];
+        
         $this->putJson(route('api.address.update', ['id' => $address->id]), $params);
 
         $updatedAddress = Address::findOrFail($address->id);
