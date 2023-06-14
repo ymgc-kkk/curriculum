@@ -80,8 +80,6 @@ class AddressControllerTest extends TestCase
         $address = Address::factory()->create();
         $faker = Factory::create();
         $params = [
-            'id' => $address->id,
-            'company_id' => $address->company_id,
             'name' => $faker->company,
             'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => $faker->address,

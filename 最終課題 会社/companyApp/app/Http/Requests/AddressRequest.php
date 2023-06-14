@@ -22,7 +22,6 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id'=>['required'],
             'name'=>['required','string', 'max:30'],
             'name_ruby'=>['required','string', 'max:30'],
             'address'=>['required','string', 'max:100'],
