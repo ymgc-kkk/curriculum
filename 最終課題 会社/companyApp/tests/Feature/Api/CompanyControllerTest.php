@@ -131,7 +131,8 @@ class CompanyControllerTest extends TestCase
      */
     public function 詳細取得不可()
     {
-        $response = $this->getJson(route('api.company.show', ['id' => -1]));
+        $company = Company::factory()->create();
+        $response = $this->getJson(route('api.company.show', ['id' => $company->id+1]));
         $response->assertStatus(404);
     }
 
