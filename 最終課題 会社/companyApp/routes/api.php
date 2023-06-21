@@ -20,12 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post("company/store", [CompanyController::class, "store"])->name("api.company.store");
+Route::post('company/store', [CompanyController::class, 'store'])->name('api.company.store');
 Route::put('company/{id}', [CompanyController::class, 'update'])->name('api.company.update');
-Route::get("company/{id}", [CompanyController::class, "show"])->name("api.company.show");
-Route::delete("company/{id}", [CompanyController::class, "destroy"])->name("api.company.destroy");
+Route::get('company/{id}', [CompanyController::class, 'show'])->name('api.company.show');
+Route::delete('company/{id}', [CompanyController::class, 'destroy'])->name('api.company.destroy');
 
-Route::post("address/store", [AddressController::class, "store"])->name("api.address.store");
+Route::post('company/{id}/address/store', [AddressController::class, 'store'])->name('api.address.store');
 Route::put('address/{id}', [AddressController::class, 'update'])->name('api.address.update');
-Route::get("address/{id}", [AddressController::class, "show"])->name("api.address.show");
-Route::delete("address/{id}", [AddressController::class, "destroy"])->name("api.address.destroy");
+Route::get('address/{id}', [AddressController::class, 'show'])->name('api.address.show');
+Route::delete('address/{id}', [AddressController::class, 'destroy'])->name('api.address.destroy');

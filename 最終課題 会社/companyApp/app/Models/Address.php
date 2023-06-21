@@ -11,7 +11,6 @@ class Address extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id',
         'name',
         'name_ruby',
         'address',

@@ -6,16 +6,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Address;
+use App\Models\Company;
 use App\Http\Requests\AddressRequest;
 
 class AddressController extends Controller
 
 {
     private $address;
+    private $company;
 
-    public function __construct(Address $address)
+    public function __construct(Address $address, Company $company)
     {
         $this->address = $address;
+        $this->company = $company;
     }
 
     /**
@@ -38,12 +41,16 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AddressRequest $request)
-{
-    $validated = $request->validated();
-    $this->address->fill($validated)->save();
-    return ['message' => 'ok'];
-}
+    public function store(AddressRequest $request, int $id)
+    {
+        $validated = $request->validated();
+        $company = $this->company->findOrFail($id);
+        $address = new Address();
+        $address->fill($validated);
+        $company->address()->save($address);
+
+        return ['message' => 'ok'];
+    }
 
     /**
      * Display the specified resource.

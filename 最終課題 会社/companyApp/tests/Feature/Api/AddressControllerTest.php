@@ -20,9 +20,11 @@ class AddressControllerTest extends TestCase
     public function 新規作成()
     {
         $faker = Factory::create();
+        $company = Company::factory()->create();
+
         $params = [
-            'id' => 0,
-            'company_id' => Company::factory()->create()->id,
+            'id' => $company->id,
+            'company_id' => $company->id,
             'name' => $faker->company,
             'name_ruby' => 'あいうえおかぶしきがいしゃ',
             'address' => $faker->address,
@@ -56,6 +58,7 @@ class AddressControllerTest extends TestCase
     public function 新規作成の失敗時()
     {
         $params = [
+            'id' =>0,
             'name' => '',
             'name_ruby' => '',
             'address' => '',
@@ -65,7 +68,7 @@ class AddressControllerTest extends TestCase
             'to_ruby' => ''
         ];
 
-        $res = $this->postJson(route('api.address.store'), $params);
+        $res = $this->postJson(route('api.address.store',['id'=> $params['id']]), $params);
         $res->assertStatus(422);
         $addresses = Address::all();
 
@@ -142,7 +145,8 @@ class AddressControllerTest extends TestCase
      */
     public function 詳細取得失敗()
     {
-        $response = $this->getJson(route('api.address.show', ['id' => -1]));
+        $address = Address::factory()->create();
+        $response = $this->getJson(route('api.address.show', $address->id +1));
 
         $response->assertStatus(404);
     }
@@ -164,7 +168,8 @@ class AddressControllerTest extends TestCase
     */
     public function 削除処理失敗()
     {
-        $response = $this->delete(route('api.address.destroy', ['id' => -1]));
+        $address = Address::factory()->create();
+        $response = $this->delete(route('api.address.destroy', $address->id +1));
 
         $response->assertStatus(404);
     }

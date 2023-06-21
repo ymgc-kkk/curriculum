@@ -22,12 +22,12 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required','string', 'max:30'],
-            'name_ruby'=> ['required','string', 'max:30'],
+            'name'=> ['required','string', 'max:50'],
+            'name_ruby'=> ['required','string', 'max:50'],
             'address'=> ['required','string','max:100'],
             'phone_number'=> ['required','string','max:14'],
-            'ceo'=> ['required','string', 'max:30'],
-            'ceo_ruby'=> ['required','string', 'max:30'],
+            'ceo'=> ['required','string', 'max:50'],
+            'ceo_ruby'=> ['required','string', 'max:50'],
         ];
     }
 }

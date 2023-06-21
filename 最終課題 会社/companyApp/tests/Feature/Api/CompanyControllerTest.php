@@ -153,7 +153,7 @@ class CompanyControllerTest extends TestCase
     public function 削除処理失敗()
     {
         $company = Company::factory()->create();
-        $response = $this->delete(route('api.company.destroy', ['id' => -1]));
+        $response = $this->delete(route('api.company.destroy', ['id' => $company->id+1]));
 
         $response->assertStatus(404);
         $this->assertDatabaseHas('companies', ['id' => $company->id]);

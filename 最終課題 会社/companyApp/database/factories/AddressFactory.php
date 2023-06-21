@@ -20,8 +20,10 @@ class AddressFactory extends Factory
 
     public function definition(): array
     {
+        $company = Company::factory()->create();
+
         return [
-            'company_id' => Company::factory()->create()->id,
+            'company_id' => $company->id,
             'name' => $this->faker->company(),
             'name_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
             'address' =>  $this->faker->address(),
