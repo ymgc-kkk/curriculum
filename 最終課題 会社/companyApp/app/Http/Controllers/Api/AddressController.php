@@ -45,9 +45,7 @@ class AddressController extends Controller
     {
         $validated = $request->validated();
         $company = $this->company->findOrFail($id);
-        $address = new Address();
-        $address->fill($validated);
-        $company->address()->save($address);
+        $company->address()->create($validated);
 
         return ['message' => 'ok'];
     }
