@@ -23,11 +23,11 @@ class CompanyRequest extends FormRequest
     {
         return [
             'name'=> ['required','string', 'max:50'],
-            'name_ruby'=> ['required','string', 'max:50'],
+            'name_kana'=> ['required','string', 'max:50'],
             'address'=> ['required','string','max:100'],
             'phone_number'=> ['required','string','max:14'],
             'ceo'=> ['required','string', 'max:50'],
-            'ceo_ruby'=> ['required','string', 'max:50'],
+            'ceo_kana'=> ['required','string', 'max:50'],
         ];
     }
 }

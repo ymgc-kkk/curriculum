@@ -23,18 +23,17 @@ class AddressControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $params = [
-            'id' => $company->id,
             'company_id' => $company->id,
             'name' => $faker->company,
-            'name_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name_kana' => 'あいうえおかぶしきがいしゃ',
             'address' => $faker->address,
             'phone_number' => '987654321',
             'department'=>'開発部',
             'to' =>  $faker->name,
-            'to_ruby' => 'やまだじろう'
+            'to_kana' => 'やまだじろう'
         ];
 
-        $res = $this->postJson(route('api.address.store', ['id'=> $params['id']]), $params);
+        $res = $this->postJson(route('api.address.store',  $company->id), $params);
         $res->assertOk();
         $addresses = Address::all();
 
@@ -43,12 +42,12 @@ class AddressControllerTest extends TestCase
         $address = $addresses->first();
 
         $this->assertSame($params['name'], $address->name);
-        $this->assertSame($params['name_ruby'], $address->name_ruby);
+        $this->assertSame($params['name_kana'], $address->name_kana);
         $this->assertSame($params['address'], $address->address);
         $this->assertSame($params['phone_number'], $address->phone_number);
         $this->assertSame($params['department'], $address->department);
         $this->assertSame($params['to'], $address->to);
-        $this->assertSame($params['to_ruby'], $address->to_ruby);
+        $this->assertSame($params['to_kana'], $address->to_kana);
 
     }
 
@@ -57,18 +56,18 @@ class AddressControllerTest extends TestCase
      */
     public function 新規作成の失敗時()
     {
+        $company = Company::factory()->create();
         $params = [
-            'id' =>0,
             'name' => '',
-            'name_ruby' => '',
+            'name_kana' => '',
             'address' => '',
             'phone_number' => null,
             'department'=>'',
             'to' => '',
-            'to_ruby' => ''
+            'to_kana' => ''
         ];
 
-        $res = $this->postJson(route('api.address.store',['id'=> $params['id']]), $params);
+        $res = $this->postJson(route('api.address.store', $company->id), $params);
         $res->assertStatus(422);
         $addresses = Address::all();
 
@@ -84,24 +83,24 @@ class AddressControllerTest extends TestCase
         $faker = Factory::create();
         $params = [
             'name' => $faker->company,
-            'name_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name_kana' => 'あいうえおかぶしきがいしゃ',
             'address' => $faker->address,
             'phone_number' => '987654321',
             'department'=>'開発部',
             'to' =>  $faker->name,
-            'to_ruby' => 'やまだじろう'
+            'to_kana' => 'やまだじろう'
         ];
         
         $this->putJson(route('api.address.update', ['id' => $address->id]), $params);
 
         $updatedAddress = Address::findOrFail($address->id);
         $this->assertSame($params['name'], $updatedAddress->name);
-        $this->assertSame($params['name_ruby'], $updatedAddress->name_ruby);
+        $this->assertSame($params['name_kana'], $updatedAddress->name_kana);
         $this->assertSame($params['address'], $updatedAddress->address);
         $this->assertSame($params['phone_number'], $updatedAddress->phone_number);
         $this->assertSame($params['department'], $updatedAddress->department);
         $this->assertSame($params['to'], $updatedAddress->to);
-        $this->assertSame($params['to_ruby'], $updatedAddress->to_ruby);
+        $this->assertSame($params['to_kana'], $updatedAddress->to_kana);
 
     }
 
@@ -130,12 +129,12 @@ class AddressControllerTest extends TestCase
         $response->assertJson([
             'address'=>[
                 'name' => $address->name,
-                'name_ruby' => $address->name_ruby,
+                'name_kana' => $address->name_kana,
                 'address' => $address->address,
                 'phone_number' => $address->phone_number,
                 'department'=>$address->department,
                 'to' => $address->to,
-                'to_ruby' => $address->to_ruby
+                'to_kana' => $address->to_kana
             ]
         ]);
     }
@@ -160,7 +159,8 @@ class AddressControllerTest extends TestCase
             'company_id' => Company::factory()->create()->id,
         ]);
         $response = $this->delete(route('api.address.destroy', ['id' => $address->id]));
-        $response->assertStatus(200);
+        $response->assertOk();
+        $this->assertCount(0, Address::all());
     }
 
     /**

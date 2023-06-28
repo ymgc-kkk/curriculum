@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->string('name');
-            $table->string('name_ruby');
+            $table->string('name_kana');
             $table->string('address');
             $table->string('phone_number');
             $table->string('department');
             $table->string('to');
-            $table->string('to_ruby');
+            $table->string('to_kana');
             $table->timestamps();
             $table->softDeletes();
         });

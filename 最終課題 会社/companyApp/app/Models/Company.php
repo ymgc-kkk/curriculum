@@ -12,14 +12,14 @@ class Company extends Model
 
     protected $fillable = [
         'name',
-        'name_ruby',
+        'name_kana',
         'address',
         'phone_number',
         'ceo',
-        'ceo_ruby',
+        'ceo_kana',
         'department',
         'to',
-        'to_ruby'
+        'to_kana'
     ];
 
     protected $dates = ['deleted_at'];

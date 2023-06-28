@@ -23,12 +23,12 @@ class AddressRequest extends FormRequest
     {
         return [
             'name'=>['required','string', 'max:50'],
-            'name_ruby'=>['required','string', 'max:50'],
+            'name_kana'=>['required','string', 'max:50'],
             'address'=>['required','string', 'max:100'],
             'phone_number'=> ['required','string','max:14'],
             'department'=>['required','string', 'max:50'],
             'to'=>['required','string', 'max:50'],
-            'to_ruby'=>['required','string', 'max:50'],
+            'to_kana'=>['required','string', 'max:50'],
         ];
     }
 }

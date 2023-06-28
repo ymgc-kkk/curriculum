@@ -25,11 +25,11 @@ class CompanyControllerTest extends TestCase
     {
         $params = [
             'name' => 'あいうえお株式会社',
-            'name_ruby' => 'あいうえおかぶしきがいしゃ',
+            'name_kana' => 'あいうえおかぶしきがいしゃ',
             'address' => '東京都千代田区111-111',
             'phone_number' => '123456789',
             'ceo' => '田中太郎',
-            'ceo_ruby' => 'たなかたろう'
+            'ceo_kana' => 'たなかたろう'
         ];
 
         $res = $this->postJson(route('api.company.store'), $params);
@@ -41,11 +41,11 @@ class CompanyControllerTest extends TestCase
         $company = $companies->first();
 
         $this->assertSame($params['name'], $company->name);
-        $this->assertSame($params['name_ruby'], $company->name_ruby);
+        $this->assertSame($params['name_kana'], $company->name_kana);
         $this->assertSame($params['address'], $company->address);
         $this->assertSame($params['phone_number'], $company->phone_number);
         $this->assertSame($params['ceo'], $company->ceo);
-        $this->assertSame($params['ceo_ruby'], $company->ceo_ruby);
+        $this->assertSame($params['ceo_kana'], $company->ceo_kana);
 
     }
 
@@ -56,11 +56,11 @@ class CompanyControllerTest extends TestCase
     {
         $params = [
             'name' => '',
-            'name_ruby' => '',
+            'name_kana' => '',
             'address' => '',
             'phone_number' => null,
             'ceo' => '',
-            'ceo_ruby' => ''
+            'ceo_kana' => ''
         ];
 
         $res = $this->postJson(route('api.company.store'), $params);
@@ -76,21 +76,21 @@ class CompanyControllerTest extends TestCase
 
         $params = [
             'name' => 'かきくけこ株式会社',
-            'name_ruby' => 'かきくけこかぶしきがいしゃ',
+            'name_kana' => 'かきくけこかぶしきがいしゃ',
             'address' => '東京都品川区2222-222',
             'phone_number' => '987654321',
             'ceo' => '山田二郎',
-            'ceo_ruby' => 'やまだじろう'
+            'ceo_kana' => 'やまだじろう'
         ];
         $this->putJson(route('api.company.update', ['id' => $company->id]), $params);
 
         $updatedCompany = Company::findOrFail($company->id);
         $this->assertSame($params['name'], $updatedCompany->name);
-        $this->assertSame($params['name_ruby'], $updatedCompany->name_ruby);
+        $this->assertSame($params['name_kana'], $updatedCompany->name_kana);
         $this->assertSame($params['address'], $updatedCompany->address);
         $this->assertSame($params['phone_number'], $updatedCompany->phone_number);
         $this->assertSame($params['ceo'], $updatedCompany->ceo);
-        $this->assertSame($params['ceo_ruby'], $updatedCompany->ceo_ruby);
+        $this->assertSame($params['ceo_kana'], $updatedCompany->ceo_kana);
 
     }
 
@@ -117,11 +117,11 @@ class CompanyControllerTest extends TestCase
         $response->assertJson([
             'company'=>[
                 'name' => $company->name,
-                'name_ruby' => $company->name_ruby,
+                'name_kana' => $company->name_kana,
                 'address' => $company->address,
                 'phone_number' => $company->phone_number,
                 'ceo' => $company->ceo,
-                'ceo_ruby' => $company->ceo_ruby
+                'ceo_kana' => $company->ceo_kana
             ]
         ]);
     }

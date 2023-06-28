@@ -21,11 +21,11 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'name_ruby' => 'あいうえおかぶしきがいしゃ', 
+            'name_kana' => 'あいうえおかぶしきがいしゃ', 
             'address' =>  $this->faker->address(),
             'phone_number' => '0000',
             'ceo' => $this->faker->name(),
-            'ceo_ruby' => 'たなかたろう'
+            'ceo_kana' => 'たなかたろう'
         ];
     }
 }

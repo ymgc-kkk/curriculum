@@ -12,12 +12,12 @@ class Address extends Model
 
     protected $fillable = [
         'name',
-        'name_ruby',
+        'name_kana',
         'address',
         'phone_number',
         'department',
         'to',
-        'to_ruby'
+        'to_kana'
     ];
     
     public function company()

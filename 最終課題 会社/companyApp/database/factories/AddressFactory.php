@@ -20,17 +20,15 @@ class AddressFactory extends Factory
 
     public function definition(): array
     {
-        $company = Company::factory()->create();
-
         return [
-            'company_id' => $company->id,
+            'company_id' => Company::factory()->create()->id,
             'name' => $this->faker->company(),
-            'name_ruby' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
+            'name_kana' => 'あいうえおかぶしきがいしゃ', //生成した名前の読み仮名を作成できなかったため仮で使用
             'address' =>  $this->faker->address(),
             'phone_number' => '0000',
             'department' => '部署名',
             'to' => $this->faker->name(),
-            'to_ruby' => 'たなかたろう' //生成した名前の読み仮名を作成できなかったため仮で使用
+            'to_kana' => 'たなかたろう' //生成した名前の読み仮名を作成できなかったため仮で使用
         ];
     }
 }
