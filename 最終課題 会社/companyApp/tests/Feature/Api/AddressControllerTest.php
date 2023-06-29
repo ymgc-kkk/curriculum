@@ -23,7 +23,6 @@ class AddressControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $params = [
-            'company_id' => $company->id,
             'name' => $faker->company,
             'name_kana' => 'あいうえおかぶしきがいしゃ',
             'address' => $faker->address,
